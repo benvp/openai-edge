@@ -2132,7 +2132,8 @@ export const OpenAIApiParamCreator = function (configuration?: Configuration) {
      */
     createChatCompletion: async (
       createChatCompletionRequest: CreateChatCompletionRequest,
-      options: RequestConfig = {}
+      options: RequestConfig = {},
+      searchParams?: URLSearchParams,
     ): Promise<RequestArgs> => {
       // verify required parameter 'createChatCompletionRequest' is not null or undefined
       assertParamExists(
@@ -2140,7 +2141,7 @@ export const OpenAIApiParamCreator = function (configuration?: Configuration) {
         "createChatCompletionRequest",
         createChatCompletionRequest
       )
-      const localVarPath = `/chat/completions`
+      const localVarPath = `/chat/completions?` + searchParams?.toString();
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -3602,13 +3603,15 @@ export const OpenAIApiFp = function (configuration?: Configuration) {
      */
     async createChatCompletion(
       createChatCompletionRequest: CreateChatCompletionRequest,
-      options?: RequestConfig
+      options?: RequestConfig,
+      searchParams?: URLSearchParams,
     ): Promise<
       (fetch?: FetchInstance, basePath?: string) => Promise<Response>
     > {
       const localVarArgs = await localVarParamCreator.createChatCompletion(
         createChatCompletionRequest,
-        options
+        options,
+        searchParams
       )
       return createRequestFunction(
         localVarArgs,
@@ -4318,10 +4321,11 @@ export const OpenAIApiFactory = function (
      */
     createChatCompletion(
       createChatCompletionRequest: CreateChatCompletionRequest,
-      options?: any
+      options?: any,
+      searchParams?: URLSearchParams,
     ): Promise<Response> {
       return localVarFp
-        .createChatCompletion(createChatCompletionRequest, options)
+        .createChatCompletion(createChatCompletionRequest, options, searchParams)
         .then((request) => request(fetch, basePath))
     },
     /**
@@ -4782,10 +4786,11 @@ export class OpenAIApi extends BaseAPI {
    */
   public createChatCompletion(
     createChatCompletionRequest: CreateChatCompletionRequest,
-    options?: RequestConfig
+    options?: RequestConfig,
+    searchParams?: URLSearchParams,
   ) {
     return OpenAIApiFp(this.configuration)
-      .createChatCompletion(createChatCompletionRequest, options)
+      .createChatCompletion(createChatCompletionRequest, options, searchParams)
       .then((request) => request(this.fetch, this.basePath))
   }
 
